@@ -27,6 +27,7 @@ class Store{
  public:
   
   Store();
+ Store(std::map<std::string,std::string> invariables):m_variables(invariables){}
   bool Initialise(std::string filename);
   void Print();
   void Delete();
@@ -78,8 +79,14 @@ class Store{
  private:
   
   std::map<std::string,std::string> m_variables;
-  
-  
+  friend class boost::serialization::access;
+
+      template<class Archive>
+	void serialize(Archive & ar, const unsigned int version)
+	{
+	  ar & m_variables;
+	}
+      
 };
 
 #endif

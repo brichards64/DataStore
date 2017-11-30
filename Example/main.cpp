@@ -3,6 +3,8 @@
 #include <Store2.h>
 #include <vector>
 #include <MyClass.h>
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
 int main(){
 
@@ -13,16 +15,23 @@ int main(){
   double b=654.7;
   std::string c="hello";
   std::vector<int> v;
-  for (int i=0;i<10;i++){
-    v.push_back(i);
+  /* initialize random seed: */
+  srand (time(NULL));
+  
+  for (int i=0;i<100000;i++){
+    v.push_back( rand() % 10000 + 1);
   }
+
   MyClass myclass(a,b,c,v); // custom class example
   std::vector<MyClass> myvec; //vector of custom class
   for (int i=0;i<10;i++){
     myvec.push_back(myclass);
   }
-  
 
+  Store s3; //nested store example
+
+
+  
   // filling store
   
   s.Set("a",a);
@@ -31,12 +40,13 @@ int main(){
   s.Set("d",v);
   s.Set("myclass",myclass);
   s.Set("myvec",myvec);
+  s3.Set("a",a);
+  s.Set("store",s3); //nested store
   
   // saving store
   std::string outfile="./outfile";
   s.Save(outfile);
   
-
 
   /// loading store from file
   Store s2;
@@ -48,7 +58,9 @@ int main(){
   std::vector<int> v2;
   MyClass myclass2;
   std::vector<MyClass> myvec2;
-    
+  Store xstore;
+  int x;
+  
   // geting variables from store
   s2.Get("a",a2);
   s2.Get("b",b2);
@@ -56,8 +68,8 @@ int main(){
   s2.Get("d",v2);
   s2.Get("myclass",myclass2);
   s2.Get("myvec",myvec2);
-
-
+  s2.Get("store",xstore);
+  xstore.Get("a",x);
   //print out to confirm
 
   
@@ -73,7 +85,8 @@ int main(){
   std::cout<<"myclass v[0]="<<myclass2.v.at(0)<<std::endl;
   std::cout<<"myvec size="<<myvec2.size()<<std::endl;
   std::cout<<"myvec[0].a="<<myvec2.at(0).a<<std::endl;
-
+  std::cout<<"nested store a"<<x<<std::endl;
+  
   return 0;
 
 }
