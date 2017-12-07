@@ -3,8 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <SerialisableObject.h>
 
-class MyClass
+class MyClass : public SerialisableObject
 {
   
  private:
@@ -15,19 +16,21 @@ class MyClass
       {
 	ar & a;
 	ar & b;
-	ar & c;
+	ar & s;
 	ar & v;
       }
 
  public:
     int a;
     double b;
-    std::string c;
+    std::string s;
     std::vector<int> v;
     
     MyClass(){};
-     MyClass(int ina, double inb, std::string inc, std::vector<int> inv) :a(ina), b(inb), c(inc), v(inv){}
+    MyClass(int ina, double inb, std::string ins, std::vector<int> inv) :a(ina), b(inb), s(ins), v(inv){}
     
+    bool Print(){return true;};
+    ~MyClass(){}
 };
 
 #endif
