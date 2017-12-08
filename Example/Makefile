@@ -1,4 +1,4 @@
-BoostInstallPath=../../../boost_1_60_0/install
+BoostInstallPath=/home/brichards/boost_1_60_0/install
 
 
 

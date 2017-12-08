@@ -185,11 +185,13 @@ void Store::Save(std::string filename){
   }
   
   else {
-    if(ofs==0){
+    if(oarch==0){
       ofs=new std::ofstream(filename.c_str());
       oarch=new boost::archive::binary_oarchive(*ofs);
     }
+    
     *oarch & m_variables;
+    
     if(m_typechecking)  *oarch & m_type_info;
 
   }
@@ -297,17 +299,18 @@ bool Store::Close(){
 
    if(m_format==2){
      if(arch!=0){
-     delete arch; 
-     arch=0;        
-     file->close();      
-     file=0;
+       
+       delete arch; 
+       arch=0;        
+       file->close();      
+       file=0;
      }
-
+     
      if(oarch!=0){
-     delete oarch;     
-     oarch=0;
-     ofs->close();
-     ofs=0;
+       delete oarch;     
+       oarch=0;
+       ofs->close();
+       ofs=0;
      }
      
      return true;
@@ -317,3 +320,24 @@ bool Store::Close(){
    
 }
 
+bool Store::GetHeader(){
+  
+  if(m_format==2){
+    
+    std::ifstream tmp(entryfile.c_str());
+    if(tmp.is_open(), std::ios::binary){
+      boost::archive::binary_iarchive ia(tmp);
+      m_variables.clear();
+      m_type_info.clear();
+      ia & m_variables;
+      if(m_typechecking) ia & m_type_info;
+      
+      return true;
+    }
+    
+  else return false;
+
+  }
+
+  else return false;
+}

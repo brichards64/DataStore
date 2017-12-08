@@ -28,9 +28,9 @@ class Store{
   
  public:
   
- Store(bool typechecking=false, int format=0): m_typechecking(typechecking),m_format(format) {findheader();} // format 0=binary, 1=text, 2=multievent.
- Store(std::map<std::string,std::string> invariables):m_variables(invariables){findheader();}
- Store(std::map<std::string,std::string> invariables, std::map<std::string,std::string> ininfo):m_variables(invariables), m_type_info(ininfo){findheader();}
+  Store(bool typechecking=false, int format=0): m_typechecking(typechecking),m_format(format) {findheader();oarch=0;arch=0;} // format 0=binary, 1=text, 2=multievent.
+  Store(std::map<std::string,std::string> invariables):m_variables(invariables){findheader();oarch=0;arch=0;}
+  Store(std::map<std::string,std::string> invariables, std::map<std::string,std::string> ininfo):m_variables(invariables), m_type_info(ininfo){findheader();oarch=0;arch=0;}
   bool Initialise(std::string filename, int type=0); //type 0=boost archive, config file 
   void JsonParser(std::string input); 
   void Print();
@@ -39,6 +39,7 @@ class Store{
   void Save(std::string fimename);
   std::string Type(std::string key);
   bool GetEntry(unsigned long entry);
+  bool GetHeader();
   bool Close();
   //  ~Store();
 

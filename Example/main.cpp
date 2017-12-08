@@ -147,12 +147,12 @@ int main(){
   std::cout<<"/////////////////////////////////////////////////////////////"<<std::endl;
   
   Store test1(false,2);
-  
+
   test1.Set("a",a);
   unsigned long entries=2;
   test1.Set("TotalEntries",entries);
   
-  test1.Save("testfile");
+  test1.Save("./testfile");
   test1.Delete();
   test1.Set("b",b);
   test1.Save("testfile");
@@ -160,9 +160,9 @@ int main(){
   test1.Set("st",st);
   test1.Save("testfile");
   test1.Delete();
-  
   test1.Close();
   
+
   Store test2(false,2);
   test2.Initialise("testfile");
   
